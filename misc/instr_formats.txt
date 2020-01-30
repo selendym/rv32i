@@ -1,0 +1,147 @@
+# INSTRUCTION FORMATS
+
+# load group
+# i-type
+0000011 LB  imm[11:0] rs1 000 rd
+0000011 LH  imm[11:0] rs1 001 rd
+0000011 LW  imm[11:0] rs1 010 rd
+0000011 LBU imm[11:0] rs1 100 rd
+0000011 LHU imm[11:0] rs1 101 rd
+
+
+# fence group
+# i-type?
+0001111 FENCE   0000 pred succ 00000 000 00000
+0001111 FENCE_I 0000 0000 0000 00000 001 00000
+
+
+# arith-i group
+# i-type
+0010011 ADDI  imm[11:0] rs1 000 rd
+0010011 SLTI  imm[11:0] rs1 010 rd
+0010011 SLTIU imm[11:0] rs1 011 rd
+0010011 XORI  imm[11:0] rs1 100 rd
+0010011 ORI   imm[11:0] rs1 110 rd
+0010011 ANDI  imm[11:0] rs1 111 rd
+# i-type
+0010011 SLLI  0000000 shamt rs1 001 rd
+0010011 SRLI  0000000 shamt rs1 101 rd
+0010011 SRAI  0100000 shamt rs1 101 rd
+
+
+# auipc group
+# u-type
+0010111 AUIPC imm[31:12] rd
+
+
+# store group
+# s-type
+0100011 SB imm[11:5] rs2 rs1 000 imm[4:0]
+0100011 SH imm[11:5] rs2 rs1 001 imm[4:0]
+0100011 SW imm[11:5] rs2 rs1 010 imm[4:0]
+
+
+# arith-r group
+# r-type
+0110011 ADD  0000000 rs2 rs1 000 rd
+0110011 SLL  0000000 rs2 rs1 001 rd
+0110011 SLT  0000000 rs2 rs1 010 rd
+0110011 SLTU 0000000 rs2 rs1 011 rd
+0110011 XOR  0000000 rs2 rs1 100 rd
+0110011 SRL  0000000 rs2 rs1 101 rd
+0110011 OR   0000000 rs2 rs1 110 rd
+0110011 AND  0000000 rs2 rs1 111 rd
+# r-type
+0110011 SUB  0100000 rs2 rs1 000 rd
+0110011 SRA  0100000 rs2 rs1 101 rd
+
+
+# lui group
+# u-type
+0110111 LUI imm[31:12] rd
+
+
+# branch group
+# b-type
+1100011 BEQ  imm[12|10:5] rs2 rs1 000 imm[4:1|11]
+1100011 BNE  imm[12|10:5] rs2 rs1 001 imm[4:1|11]
+1100011 BLT  imm[12|10:5] rs2 rs1 100 imm[4:1|11]
+1100011 BGE  imm[12|10:5] rs2 rs1 101 imm[4:1|11]
+1100011 BLTU imm[12|10:5] rs2 rs1 110 imm[4:1|11]
+1100011 BGEU imm[12|10:5] rs2 rs1 111 imm[4:1|11]
+
+
+# jalr group
+# i-type
+1100111 JALR imm[11:0] rs1 000 rd
+
+
+# jal group
+# j-type
+1101111 JAL imm[20|10:1|11|19:12] rd
+
+
+# system group
+# i-type
+1110011 CSRRW  csr rs1  001 rd
+1110011 CSRRS  csr rs1  010 rd
+1110011 CSRRC  csr rs1  011 rd
+# i-type?
+1110011 CSRRWI csr zimm 101 rd
+1110011 CSRRSI csr zimm 110 rd
+1110011 CSRRCI csr zimm 111 rd
+# i-type?
+1110011 ECALL  000000000000 00000 000 00000
+1110011 EBREAK 000000000001 00000 000 00000
+
+
+
+# RAW INSTRUCTION FORMATS
+
+imm[31:12] rd 0110111 LUI
+imm[31:12] rd 0010111 AUIPC
+imm[20|10:1|11|19:12] rd 1101111 JAL
+imm[11:0] rs1 000 rd 1100111 JALR
+imm[12|10:5] rs2 rs1 000 imm[4:1|11] 1100011 BEQ
+imm[12|10:5] rs2 rs1 001 imm[4:1|11] 1100011 BNE
+imm[12|10:5] rs2 rs1 100 imm[4:1|11] 1100011 BLT
+imm[12|10:5] rs2 rs1 101 imm[4:1|11] 1100011 BGE
+imm[12|10:5] rs2 rs1 110 imm[4:1|11] 1100011 BLTU
+imm[12|10:5] rs2 rs1 111 imm[4:1|11] 1100011 BGEU
+imm[11:0] rs1 000 rd 0000011 LB
+imm[11:0] rs1 001 rd 0000011 LH
+imm[11:0] rs1 010 rd 0000011 LW
+imm[11:0] rs1 100 rd 0000011 LBU
+imm[11:0] rs1 101 rd 0000011 LHU
+imm[11:5] rs2 rs1 000 imm[4:0] 0100011 SB
+imm[11:5] rs2 rs1 001 imm[4:0] 0100011 SH
+imm[11:5] rs2 rs1 010 imm[4:0] 0100011 SW
+imm[11:0] rs1 000 rd 0010011 ADDI
+imm[11:0] rs1 010 rd 0010011 SLTI
+imm[11:0] rs1 011 rd 0010011 SLTIU
+imm[11:0] rs1 100 rd 0010011 XORI
+imm[11:0] rs1 110 rd 0010011 ORI
+imm[11:0] rs1 111 rd 0010011 ANDI
+0000000 shamt rs1 001 rd 0010011 SLLI
+0000000 shamt rs1 101 rd 0010011 SRLI
+0100000 shamt rs1 101 rd 0010011 SRAI
+0000000 rs2 rs1 000 rd 0110011 ADD
+0100000 rs2 rs1 000 rd 0110011 SUB
+0000000 rs2 rs1 001 rd 0110011 SLL
+0000000 rs2 rs1 010 rd 0110011 SLT
+0000000 rs2 rs1 011 rd 0110011 SLTU
+0000000 rs2 rs1 100 rd 0110011 XOR
+0000000 rs2 rs1 101 rd 0110011 SRL
+0100000 rs2 rs1 101 rd 0110011 SRA
+0000000 rs2 rs1 110 rd 0110011 OR
+0000000 rs2 rs1 111 rd 0110011 AND
+0000 pred succ 00000 000 00000 0001111 FENCE
+0000 0000 0000 00000 001 00000 0001111 FENCE_I
+000000000000 00000 000 00000 1110011 ECALL
+000000000001 00000 000 00000 1110011 EBREAK
+csr rs1 001 rd 1110011 CSRRW
+csr rs1 010 rd 1110011 CSRRS
+csr rs1 011 rd 1110011 CSRRC
+csr zimm 101 rd 1110011 CSRRWI
+csr zimm 110 rd 1110011 CSRRSI
+csr zimm 111 rd 1110011 CSRRCI

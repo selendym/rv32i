@@ -1,0 +1,11 @@
+/doc/**
+!/doc/doc.pdf
+!/doc/doc.tex
+!/doc/fig/
+!/doc/fig/class_diag.png
+!/doc/fig/class_diag.svg
+
+/src/test/main
+/src/test/test
+/src/test/test.bin
+/src/test/mem.img
